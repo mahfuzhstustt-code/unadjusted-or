@@ -1,0 +1,28 @@
+```r
+# ১. প্যাকেজ লোড
+library(readxl)
+library(gtsummary)
+library(tidyverse)
+
+# ২. Excel data import
+BD_Uni_Sleep_Disorder_Dataset <- read_excel(file.choose())
+
+# ৩. Unadjusted logistic regression
+OR_table <- tbl_uvregression(
+  glm,
+  y = `Sleep Disorder`,
+  method.args = list(family = binomial),
+  exponentiate = TRUE,
+  include = c(
+    Gender,
+    Age,
+    `Sleep Duration`,
+    `Quality of Sleep`
+  )
+) %>%
+  modify_header(estimate ~ "**OR (95% CI)**") %>%
+  bold_labels()
+
+# ৪. Output দেখানো
+OR_table
+```
